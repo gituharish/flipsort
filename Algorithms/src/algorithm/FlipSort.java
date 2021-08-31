@@ -13,7 +13,7 @@ import java.util.List;
 public class FlipSort {
 
 	// output list saving the indices where the array gets flipped
-	static List<Integer> flippedIndices = new ArrayList();
+	static List<Integer> flippedIndices = new ArrayList<Integer>();
 
 	/**
 	 * This method reverses the arr[0..i]
@@ -71,66 +71,68 @@ public class FlipSort {
 	 * @param n
 	 * @return
 	 */
-	static void flipSort(int arr[]) {
+	static int flipSort(int arr[]) {
 
 		int n = arr.length;
-	
+		int flips = 0;
 		// Start by checking the first and the last element of the array.
 		int firstElement = arr[0];
 		int lastElement = arr[n - 1];
 		if (firstElement > lastElement) {
 		// flip the array if the firstElement is greater than the last element
 			flip(arr, n - 1);
+			flips++;
 		}
 
+        // sorting is done reducing the current size by one, ensuring that keeps the constraint 1 <= arr[i] <= arr.length
 		for (int curr_size = n; curr_size > 1; --curr_size) {
 			// Find index of the
 			// maximum element in
 			// arr[0..curr_size-1]
 			int mi = findMax(arr, curr_size);
-
-			
+	
 			if (mi != curr_size - 1) {
 				// To move at the end,
 				// first move maximum
 				// number to beginning
-				
-			
 				// unless it is already at index position 0
 				// (so we can skip the first flip):
 				if (mi != 0) {
 					flip(arr, mi);
+					flips++;
 				}
 
 				// Now move the maximum
 				// number to end by
 				// reversing current array
-
 				flip(arr, curr_size - 1);
-
+				flips++;
 			}
 		}
-
+		return flips;
 	}
 
 	/**
-	 * Main function to check the flipsort method
+	 * Main function to invoke and test the flipsort method
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
 
-		// int arr[] = { 8, 6, 4, 2, 1, 3, 5, 7 };
-		 int arr[] = {3,2,4,1};
-		//int arr[] = { 1, 2, 3 };
+		int arr[] = { 1, 2, 3 };
+		 //int arr[] = {3,2,4,1};
+		 // int arr[] = { 8, 6, 4, 2, 1, 3, 5, 7 };
+		if (arr.length <=100 && arr.length >= 1){
+		int flips = flipSort(arr);
+	
 
-		flipSort(arr);
+		System.out.println("Input => Sorted Array: " + Arrays.toString(arr));
+		System.out.println("Output => Flipped indices: " + Arrays.toString(flippedIndices.toArray()));
+		System.out.println("Number of flips taken to sort: " + flips);
 
-		System.out.println("Input => Sorted Array: ");
-		System.out.println(Arrays.toString(arr));
-
-		System.out.println("Output => Flipped indices: ");
-		System.out.println(Arrays.toString(flippedIndices.toArray()));
+		} else {
+			System.out.println("constraint failure : array 1 <= arr.length <= 100" );
+		}
 	}
 
 }
